@@ -68,7 +68,9 @@ We can use:
 
 `$ sudo apt install pmidi`
 
-`$ pmidi -l`
+`$ pmidi -l` (this will list off available ports)
+
+Using a port from that output, play a MIDI file:
 
 `$ pmidi -p <number:number for a tiMidity port> <file.mid>`
 
