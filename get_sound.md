@@ -47,3 +47,40 @@ Use sox (SOund eXchange) to create a wav file.
 `$ sox -b 16 -n test.wav rate 48000 channels 2 synth 1 sine 440 gain -1`
 
 `$ aplay -D hw:0 test.wav`
+
+### Playing MIDI through built in software in Ubuntu
+Download a MIDI file like [this one](https://en.wikipedia.org/wiki/General_MIDI).
+
+`$ sudo apt install gstreamer1.0-plugins-bad`
+
+`$ sudo apt install gstreamer1.0-plugins-ugly`
+
+`$ xdg-open song.mid` -- works
+
+## Installing a soft synth
+*Many guides I found used fluidsynth, however that broke my machine*
+
+We can use:
+* [tiMidity](https://github.com/geofft/timidity): a soft synth
+* [pmidi](http://www.parabola.me.uk/alsa/pmidi.html): command line program to run MIDI through ALSA
+
+`$ sudo apt-get install timidity`
+
+`$ sudo apt install pmidi`
+
+`$ pmidi -l`
+
+`$ pmidi -p <number:number for a tiMidity port> <file.mid>`
+
+<!---
+# Fluidsynth broke my machine:
+check back later lol
+
+ We'll start with fluid synth:
+
+`$ sudo apt-get install fluidsynth`
+`$ sudo apt-get install fluid-soundfont-gm`
+
+`fluid-soundfont-gm` may already be installed with `fluidsynth`
+
+Reading for [sound fonts](https://en.wikipedia.org/wiki/SoundFont) and [General MIDI](https://en.wikipedia.org/wiki/General_MIDI) --->
