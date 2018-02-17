@@ -18,6 +18,8 @@ First install [JACK](http://www.jackaudio.org/faq/about.html)
 
 Say yes when it asks for real time privileges.
 
+`$ sudo apt install libjack-jackd2-dev`
+
 Check to see if you are in the audio group by running,
 `groups | grep audio`. If nothing comes back, enter
 
@@ -47,6 +49,10 @@ Use sox (SOund eXchange) to create a wav file.
 `$ sox -b 16 -n test.wav rate 48000 channels 2 synth 1 sine 440 gain -1`
 
 `$ aplay -D hw:0 test.wav`
+
+### Other ALSA tidbits
+
+`$ sudo apt install libasound2-dev` (we'll need this for rtmidi later)
 
 ### Playing MIDI through built in software in Ubuntu
 Download a MIDI file like [this one](https://en.wikipedia.org/wiki/General_MIDI).
@@ -86,3 +92,31 @@ check back later lol
 `fluid-soundfont-gm` may already be installed with `fluidsynth`
 
 Reading for [sound fonts](https://en.wikipedia.org/wiki/SoundFont) and [General MIDI](https://en.wikipedia.org/wiki/General_MIDI) --->
+
+# Getting Python Dependencies
+Many things aren't installed with a fresh install of Ubuntu!
+
+`$ sudo apt-get upgrade python3`
+
+`$ sudo apt install python3-pip`
+
+`$ pip3 install --upgrade pip`
+
+`$ sudo pip3 install mido`
+
+`$ sudo pip3 install Cython`
+
+`$ sudo pip3 install rtmidi`
+
+`$ sudo pip3 install python-rtmidi`
+
+## Playing a MIDI file through mido
+
+I only got this to work in a very specfic way - need to figure out why it works this way.
+
+* open interpreter
+* import mido
+* cd /mido/examples/midifiles (git repo)
+* run play_midi_file.py <file> 'tiMiditiy port 0'
+
+The port name was found using list_ports.py. Other tiMidity ports worked.
