@@ -18,7 +18,7 @@ class RhythmString(object):
     
     @tempo.setter
     def tempo(self, tempo):
-        if not isinstance(tempo, int) or tempo < 0:
+        if not isinstance(tempo, int) or tempo < 0 or tempo > 300:
             raise ValueError("Great drummers use a positive integer \
                     for tempo")
         self._tempo = tempo
