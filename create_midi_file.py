@@ -9,19 +9,36 @@ The file is saved to test.mid.
 import random
 from mido import Message, MidiFile, MidiTrack
 
-notes = [64, 64+7, 64+12]
+notes = [36, 42, 38, 42]
 
 outfile = MidiFile()
 
 track = MidiTrack()
 outfile.tracks.append(track)
 
-track.append(Message('program_change', program=12))
+track.append(Message('program_change', program=52))
 
-delta = 16
-for i in range(4):
-    note = random.choice(notes)
-    track.append(Message('note_on', note=note, velocity=100, time=delta))
-    track.append(Message('note_off', note=note, velocity=100, time=delta))
+kick_on = Message('note_on', channel=9, note=35, velocity=122, time=122)
+off = Message('note_off', channel=9, note=42, velocity=0, time=122)
+hat_on = Message('note_on', channel=9, note=42, velocity=80,time=122)
+snare_on = Message('note_on', channel=9, note=38, velocity=100, time=122)
+
+def kick():
+    track.append(kick_on)
+    track.append(off)
+
+def hat():
+    track.append(hat_on)
+    track.append(off)
+
+def snare():
+    track.append(snare_on)
+    track.append(off)
+
+for i in range(40):
+    kick()
+    hat()
+    snare()
+    hat()
 
 outfile.save('test.mid')
