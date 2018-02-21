@@ -1,27 +1,44 @@
-# Making a basic drum beat in mido
+#!/usr/bin/env python
+"""
+Code taken from github.com/olemb/mido
 
-import time
-import mido
-import rtmidi
+Create a new MIDI file with some random notes.
 
-midiout = rtmidi.MidiOut()
-available_ports = midiout.get_ports()
+The file is saved to test.mid.
+"""
+import random
+from mido import Message, MidiFile, MidiTrack
 
-print(mido.get_output_names())
-#if available_ports:
-#    midiout.open_port('TiMidity port 0')
-with mido.open_output(mido.get_output_names()[1]) as output:
- 
-    note_on = mido.Message('note_on', channel=9, note=60, velocity=112).bytes()
-    note_off = mido.Message('note_off', channel=9, note=60, velocity=0).bytes()
+notes = [36, 42, 38, 42]
 
-    output.send(note_on)
-    time.sleep(5)
-    output.send(note_off)
+outfile = MidiFile()
 
-#midiout.send_message(note_on)
-#time.sleep(5)
-#midiout.send_message(note_off)
+track = MidiTrack()
+outfile.tracks.append(track)
 
-#del midiout
+track.append(Message('program_change', program=52))
 
+kick_on = Message('note_on', channel=9, note=35, velocity=122, time=122)
+off = Message('note_off', channel=9, note=42, velocity=0, time=122)
+hat_on = Message('note_on', channel=9, note=42, velocity=80,time=122)
+snare_on = Message('note_on', channel=9, note=38, velocity=100, time=122)
+
+def kick():
+    track.append(kick_on)
+    track.append(off)
+
+def hat():
+    track.append(hat_on)
+    track.append(off)
+
+def snare():
+    track.append(snare_on)
+    track.append(off)
+
+for i in range(40):
+    kick()
+    hat()
+    snare()
+    hat()
+
+outfile.save('test.mid')
