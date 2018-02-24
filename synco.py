@@ -2,9 +2,18 @@
 
 HELP = '''
 Usage:
-  synco <input_file> <output>  -p <port_desc> 
-  synco <input_file> <output> <tempo> -f <filename>
-'''
+  synco.py -h | --help
+  synco.py [-p=PORT | --port=PORT] 
+  synco.py [ -i=FILE | --input=FILE ] [-o=FILE | --output=FILE ]
+
+Options:
+  -h       --help         Show this screen.
+  -i=FILE  --input=FILE   Sets the input file.
+  -o=FILE  --output=FILE  Sets the output file.
+  -t=TEMPO --tempo=TEMPO  [default: 102].
+  -s=<arg> --sound=<arg>  [default: 'SN'].
+  -p=PORT  --port=PORT    [default: 'TiMiditiy port 0'].
+       '''
 
 class MidiOut():
     '''
@@ -12,7 +21,7 @@ class MidiOut():
     parsed pattern from user input (shell).
     '''
 
-    def __init__(self, port_desc='Timidity port 0', **kwargs):
+    def __init__(self, port_desc='TiMidity port 0', **kwargs):
         self.port = port
     def __enter__(self):
         pass
