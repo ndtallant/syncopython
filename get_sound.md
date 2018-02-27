@@ -38,7 +38,7 @@ Your ALSA device name will be "hw:n,m", where n is the number associated with yo
 
 Hopefully your system will use "hw:0" - meaning ALSA sees your sound card as the first entry with no subdevices. If you have many sound cards, you may find [this](http://www.alsa-project.org/main/index.php/Asoundrc) helpful.
 
-*note*: /proc is a directory that contains virtual files whit info about your system. Neat!
+*note*: /proc is a directory that contains virtual files with info about your system. Neat!
 
 ## Test ALSA with a wav file
 
@@ -54,15 +54,6 @@ Use sox (SOund eXchange) to create a wav file.
 
 `$ sudo apt install libasound2-dev` (we'll need this for rtmidi later)
 
-### Playing MIDI through built in software in Ubuntu
-Download a MIDI file like [this download](http://www.midiworld.com/download/4040).
-
-`$ sudo apt install gstreamer1.0-plugins-bad`
-
-`$ sudo apt install gstreamer1.0-plugins-ugly`
-
-`$ xdg-open song.mid` -- works
-
 ## Installing a soft synth
 *Many guides I found used fluidsynth, however that broke my machine*
 
@@ -73,6 +64,9 @@ We can use:
 `$ sudo apt-get install timidity`
 
 `$ sudo apt install pmidi`
+
+### Playing MIDI through the synth
+Download a MIDI file like [this download](http://www.midiworld.com/download/4040).
 
 `$ pmidi -l` (this will list off available ports)
 
