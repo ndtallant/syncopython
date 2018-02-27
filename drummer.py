@@ -4,19 +4,6 @@ The rhythm string for each limb will be parsed and joined
 to output to drumseq.py as I develop a backend.
 '''
 
-#class RhythmString:
-    '''
-    Standard rhythm notation, beats are separated by commas.
-    Ex. "1 e & a, 2 &, 3 e & a, 4"
-    This may not need to be it's own class - we'll see.
-    '''
-    
- #   def __init__(self, rhythm):
-  #      self.rhythm = rhythm
-
-  #  def __repr__(self):
-   #     return self.rhythm
-
 class Limb:
     '''
     Limb object has a MIDI sound #, RhythmString, and label.
