@@ -55,7 +55,7 @@ Use sox (SOund eXchange) to create a wav file.
 `$ sudo apt install libasound2-dev` (we'll need this for rtmidi later)
 
 ### Playing MIDI through built in software in Ubuntu
-Download a MIDI file like [this one](http://www.midiworld.com/download/4040.
+Download a MIDI file like [this download](http://www.midiworld.com/download/4040).
 
 `$ sudo apt install gstreamer1.0-plugins-bad`
 
