@@ -18,11 +18,6 @@ class Limb:
         return '{} "{}" {}/
                '.format(self.patch, self.rhythm, self.label)
 
-RH = Limb(42, '1 &, 2 &, 3 &, 4 &', 'HH')
-LH = Limb(38, '   , 2  ,    , 4  ', 'Snare')
-RF = Limb(36, '1  ,   &, 3  ,   &', 'Kick')
-LF = Limb(42, '   , 2  ,    , 4  ', 'Foot')
-
 class Drummer:
     '''
     A collection of 4 limbs with defaults set.
@@ -41,4 +36,11 @@ class Drummer:
     def __repr__(self):
         for limb in self.limbs:
             print('{} {} {}'.format(limb.patch, limb.rhythm, limb.label)
-        
+
+if name == "__main__":
+     RH = Limb(42, '1 &, 2 &, 3 &, 4 &', 'HH')
+     LH = Limb(38, '   , 2  ,    , 4  ', 'Snare')
+     RF = Limb(36, '1  ,   &, 3  ,   &', 'Kick')
+     LF = Limb(42, '   , 2  ,    , 4  ', 'Foot')
+
+   
