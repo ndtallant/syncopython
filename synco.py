@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import drummer
+
 
 HELP = '''
 Usage:
@@ -23,6 +25,8 @@ class MidiOut():
 
     def __init__(self, port_desc='TiMidity port 0', **kwargs):
         self.port = port
+    def parse_drummer(self, drummer):
+        pass
     def __enter__(self):
         pass
     def __exit__(self):
