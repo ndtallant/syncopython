@@ -4,9 +4,9 @@ The rhythm string for each limb will be parsed and joined
 to output to drumseq.py as I develop a backend.
 '''
 
-class Limb:
+class RhythmString:
     '''
-    Limb object has a MIDI sound #, RhythmString, and label.
+    RhythmString object has a MIDI sound #, RhythmString, and label.
     '''
 
     def __init__(self, patch, rs, label):
@@ -17,18 +17,12 @@ class Limb:
     def __repr__(self):
         return '{} "{}" {}'.format(self.patch, self.rhythm, self.label)
 
-class Drummer:
+class Transcription:
     '''
-    A collection of 4 limbs with defaults set.
+    This class parses a readable stream into RhythmStrings, 
+    and parses a collection of RhythmStrings into a string
+    to be handled by the backend.
     '''
-
-    # pre-pairing init
-    # def __init__(self, right=RH, left=LH, rfoot=RF, lfoot=LF):
-    #     self.RH = right
-    #     self.LH = left
-    #     self.RF = rfoot
-    #     self.LF = lfoot
-    #     self.limbs = [self.RH, self.LH, self.RF, self.LF]
 
     def __init__(self, input_stream=None, **kwargs):
         if input_stream:
@@ -39,6 +33,7 @@ class Drummer:
         parse new_input and modify internal state accordingly
         modify internal state according to new input
         '''
+        
         return NotImplementedError
 
     def output_drumseq(self):
@@ -52,8 +47,9 @@ class Drummer:
     def __repr__(self):
         for limb in self.limbs:
             print('{} {} {}'.format(limb.patch, limb.rhythm, limb.label))
+
 if name == "__main__":
-     RH = Limb(42, '1 &, 2 &, 3 &, 4 &', 'HH')
-     LH = Limb(38, '   , 2  ,    , 4  ', 'Snare')
-     RF = Limb(36, '1  ,   &, 3  ,   &', 'Kick')
-     LF = Limb(42, '   , 2  ,    , 4  ', 'Foot')
+     RH = RhythmString(42, '1 &, 2 &, 3 &, 4 &', 'HH')
+     LH = RhythmString(38, '   , 2  ,    , 4  ', 'Snare')
+     RF = RhythmString(36, '1  ,   &, 3  ,   &', 'Kick')
+     LF = RhythmString(42, '   , 2  ,    , 4  ', 'Foot')
