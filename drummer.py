@@ -33,8 +33,12 @@ class Transcription:
         parse new_input and modify internal state accordingly
         modify internal state according to new input
         '''
-        
-        return NotImplementedError
+        stack = []
+        for item in new_input.read().split('\n'):
+            r = item.split(',')
+            stack.append(RhythmString(r.pop(0),label=r.pop(),rs=','.join(r)))
+
+        return stack 
 
     def output_drumseq(self):
         '''
@@ -48,7 +52,7 @@ class Transcription:
         for limb in self.limbs:
             print('{} {} {}'.format(limb.patch, limb.rhythm, limb.label))
 
-if name == "__main__":
+if __name__ == "__main__":
      RH = RhythmString(42, '1 &, 2 &, 3 &, 4 &', 'HH')
      LH = RhythmString(38, '   , 2  ,    , 4  ', 'Snare')
      RF = RhythmString(36, '1  ,   &, 3  ,   &', 'Kick')
