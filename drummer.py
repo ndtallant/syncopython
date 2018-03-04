@@ -26,30 +26,27 @@ class Transcription:
     '''
 
     def __init__(self, input_stream=None, **kwargs):
+        self.stack = []
         if input_stream:
-            print(input_stream) #getting extra positional argument
-            self.stack = self.feed(input_stream)
+    	    self.feed(input_stream)
 
-    def feed(new_input): # new_input should be a readable stream (or string)
+    def feed(self, new_input): # new_input should be a readable stream (or string
         '''
         parse new_input and modify internal state accordingly
         modify internal state according to new input
         '''
-        stack = []
-        for item in new_input.read().split('\n'):
-            r = item.split('|')
-            stack.append(RhythmString(r[0],r[1],r[2]))
+        for item in new_input.read().strip().split('\n'):
+            r = item.strip().split('|')
+            self.stack.append(RhythmString(r[0],r[1],r[2]))
 
-        return stack 
-
-    def output_drumseq(self, stack):
+    def output_drumseq(self):
         '''
-        TODO
         generates pattern suitable for drumseq.Sequencer
         based on current internal state
         '''
+        
         rv = '# 1...2...3...4... '
-        for r in stack: # need \n between RS?
+        for r in self.stack: # need \n between RS?
             ds_rhythm = self.drumseq_helper(r.rhythm) 
             rv += '{} {} {} '.format(r.patch,ds_rhythm, r.label) 
         return rv
