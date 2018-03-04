@@ -3,6 +3,7 @@ Classes that form the basis for syncopython
 The rhythm string for each limb will be parsed and joined
 to output to drumseq.py as I develop a backend.
 '''
+import re
 
 class RhythmString:
     '''
@@ -27,7 +28,7 @@ class Transcription:
     def __init__(self, input_stream=None, **kwargs):
         if input_stream:
             print(input_stream) #getting extra positional argument
-            self.feed(input_stream)
+            self.stack = self.feed(input_stream)
 
     def feed(new_input): # new_input should be a readable stream (or string)
         '''
@@ -41,17 +42,29 @@ class Transcription:
 
         return stack 
 
-    def output_drumseq(self):
+    def output_drumseq(self, stack):
         '''
         TODO
         generates pattern suitable for drumseq.Sequencer
         based on current internal state
         '''
-        raise NotImplementedError
+        rv = '# 1...2...3...4... '
+        for r in stack: # need \n between RS?
+            ds_rhythm = self.drumseq_helper(r.rhythm) 
+            rv += '{} {} {} '.format(r.patch,ds_rhythm, r.label) 
+        return rv
+        
+    def drumseq_helper(self, rhythm):
+        rv = ''
+        for beat in rhythm.split(','):
+            rv += self.beat_parse('\d', beat)
+            rv += self.beat_parse('e', beat)
+            rv += self.beat_parse('&', beat)
+            rv += self.beat_parse('a', beat)
+        return rv    
 
-    def __repr__(self):
-        for limb in self.limbs:
-            print('{} {} {}'.format(limb.patch, limb.rhythm, limb.label))
+    def beat_parse(self, exp, beat):
+        return 'x' if re.search(exp, beat) else '.'
 
 if __name__ == "__main__":
      RH = RhythmString(42, '1 &, 2 &, 3 &, 4 &', 'HH')
