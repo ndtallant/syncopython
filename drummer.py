@@ -14,7 +14,7 @@ class RhythmString:
         self.rhythm = rs
         self.label = label
 
-    def __repr__(self):
+    def __str__(self):
         return '{} "{}" {}'.format(self.patch, self.rhythm, self.label)
 
 class Transcription:
@@ -26,6 +26,7 @@ class Transcription:
 
     def __init__(self, input_stream=None, **kwargs):
         if input_stream:
+            print(input_stream) #getting extra positional argument
             self.feed(input_stream)
 
     def feed(new_input): # new_input should be a readable stream (or string)
@@ -35,8 +36,8 @@ class Transcription:
         '''
         stack = []
         for item in new_input.read().split('\n'):
-            r = item.split(',')
-            stack.append(RhythmString(r.pop(0),label=r.pop(),rs=','.join(r)))
+            r = item.split('|')
+            stack.append(RhythmString(r[0],r[1],r[2]))
 
         return stack 
 
