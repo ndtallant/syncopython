@@ -29,13 +29,14 @@ class Transcription:
     multiline string to be handled by the backend.
     '''
 
+<<<<<<< HEAD
     def __init__(self, input_str=None, **kwargs):
         if input_str:
             print(input_str) #getting extra positional argument
             self.stack = self.feed(input_str)
 
-    def feed(self, new_input): # new_input should be a readable stream (or string)
-        '''
+    def feed(self, new_input): 
+       '''
         Parse new_input and modify internal state accordingly.
         Modify internal state according to new input.
         '''
@@ -53,7 +54,7 @@ class Transcription:
         '''
         rv = '#  1...2...3...4...\n'
         for r in stack: # need \n between RS?
-            ds_rhythm = self.drumseq_helper(r.rhythm) 
+           ds_rhythm = self.drumseq_helper(r.rhythm) 
             rv += '{}{} {}\n'.format(r.patch, ds_rhythm, r.label) 
         return rv
         
