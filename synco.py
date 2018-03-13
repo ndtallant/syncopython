@@ -24,15 +24,17 @@ class MidiOut():
     and play notes when .play() is called
     '''
 
-    def __init__(self, drumseq_pattern=None, port_desc='TiMidity port 0', **kwargs):
-        if len(drumseq_pattern) == 0:
-            raise TypeError('must have drumseq_pattern to play!')
-        self.port = port
-        self.pattern_stream = pattern_stream
+    def __init__(self, input_pattern=None, port_desc='TiMidity port 0', **kwargs):
+        if len(input_pattern) == 0:
+            raise TypeError('must have input_pattern to play!')
+        self.port = port_desc #Double check a string is what this needs
+        self.drumseq_pattern = self.parse_drummer(input_pattern)
 
-    def parse_drummer(self, drummer):
+    def parse_drummer(self, input_pattern):
+        # Have Transcription object parse and return
+        # drumseq_pattern
         pass
-    def __enter__(self):
+    def __enter__(self): # Review what these are
         pass
     def __exit__(self):
         pass
