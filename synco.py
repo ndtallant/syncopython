@@ -37,7 +37,7 @@ class DreamSequencer(drumseq_orig.Sequencer):
         self.done = True
         self.join()
 
-class MidiOut(contextlib.AbstractContextManager): # check docs for this
+class MidiOut(): # check docs for this
     '''
     Will instatiate the drumseq.Sequencer with the
     parsed pattern from user input (shell).
@@ -60,7 +60,7 @@ class MidiOut(contextlib.AbstractContextManager): # check docs for this
         try:
             midiout, port_name = open_midioutput(
                 args.port,
-                api=rtmidi.API_RTMIDI_DUMMY, # play around with these
+                api=rtmidi.API_LINUX_ALSA, # play around with these
                 client_name="syncopython",
                 port_name="MIDI Out") 
 
@@ -87,7 +87,8 @@ class MidiOut(contextlib.AbstractContextManager): # check docs for this
         return t.output_drumseq()
 
     def __enter__(self): # __init__ can serve as __enter__ 
-        pass
+
+        return self
 
     def __exit__(self, exec_type, exec_value, traceback):
         '''
@@ -131,9 +132,9 @@ if __name__ == "__main__":
     # print(arguments)
 
     # pass input to parser and get something suitable for drumseq
-    parser = drummer.Drummer(input_pattern=arguments['--input'])
+    parser = Transcription(input_pattern=arguments['--input'])
     drumseq_pattern = parser.output_drumseq()
-    print(f"drumseq_pattern: '{drumseq_pattern}'")
+    #print(f"drumseq_pattern: '{drumseq_pattern}'")
 
     # decides whatthe output used with 'with' will be
     output_class = None
@@ -142,5 +143,5 @@ if __name__ == "__main__":
     else:
         output_class = MidiOut
 
-    with output_class(drumseq_pattern=drumseq_pattern) as out:
+    with output_class(input_pattern=drumseq_pattern) as out:
         out.play()
