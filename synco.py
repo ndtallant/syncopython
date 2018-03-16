@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import drummer
+from transcription import Transcription, RhythmString 
 import drumseq
 
 HELP = '''
