@@ -4,3 +4,4 @@ pytest
 python-rtmidi
 rtmidi
 six
+docopt
