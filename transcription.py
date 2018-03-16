@@ -29,46 +29,45 @@ class Transcription:
     multiline string to be handled by the backend.
     '''
 
-<<<<<<< HEAD
     def __init__(self, input_str=None, **kwargs):
+        self.stack = []
+
         if input_str:
             print(input_str) #getting extra positional argument
-            self.stack = self.feed(input_str)
+            self.feed(input_str)
 
     def feed(self, new_input): 
-       '''
+        '''
         Parse new_input and modify internal state accordingly.
         Modify internal state according to new input.
         '''
-        stack = []
         for item in new_input.split('\n'):
             patch, rs, label = item.split('|')
-            stack.append(RhythmString(patch, rs, label))
+            self.stack.append(RhythmString(patch, rs, label))
+        # Not sure if I want to have a fresh stack each time
 
-        return stack 
- 
-    def output_drumseq(self, stack):
-        '''
-        Generate pattern suitable for drumseq.Sequencer
-        based on current internal state
-        '''
-        rv = '#  1...2...3...4...\n'
-        for r in stack: # need \n between RS?
-           ds_rhythm = self.drumseq_helper(r.rhythm) 
-            rv += '{}{} {}\n'.format(r.patch, ds_rhythm, r.label) 
-        return rv
+    def output_drumseq(self):
+       '''
+       Generate pattern suitable for drumseq.Sequencer
+       based on current internal state
+       '''
+       rv = '#  1...2...3...4...\n'
+       for r in self.stack: # need \n between RS?
+          ds_rhythm = self.drumseq_helper(r.rhythm) 
+          rv += '{}{} {}\n'.format(r.patch, ds_rhythm, r.label) 
+       return rv
         
     def drumseq_helper(self, rhythm):
-        rv = ''
-        for beat in rhythm.split(','):
-            rv += self.beat_parse('\d', beat)
-            rv += self.beat_parse('e', beat)
-            rv += self.beat_parse('&', beat)
-            rv += self.beat_parse('a', beat)
-        return rv    
+       rv = ''
+       for beat in rhythm.split(','):
+           rv += self.beat_parse('\d', beat)
+           rv += self.beat_parse('e', beat)
+           rv += self.beat_parse('&', beat)
+           rv += self.beat_parse('a', beat)
+       return rv    
 
     def beat_parse(self, exp, beat):
-        return 'x' if re.search(exp, beat) else '.'
+       return 'x' if re.search(exp, beat) else '.'
 
 if __name__ == "__main__":
      RH = RhythmString(42, '1 &, 2 &, 3 &, 4 &', 'HH')
