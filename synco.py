@@ -19,6 +19,24 @@ Options:
   -p=PORT  --port=PORT    [default: 'TiMiditiy port 0'].
        '''
 
+class DreamSequencer(drumseq_orig.Sequencer):
+    
+    def __init__(self, midiout, pattern, bpm=100, channel=9, volume=127):
+        super(Sequencer, self).__init__()
+        self.midiout = midiout
+        self.bpm = max(20, min(bpm, 400))
+        self.interval = 15. / self.bpm
+        self.pattern = drumseq.Drumpattern(pattern)
+        self.channel = channel
+        self.volume = volume
+
+    def play(self):
+        self.start()
+
+    def stop(self):
+        self.done = True
+        self.join()
+
 class MidiOut(contextlib.AbstractContextManager): # check docs for this
     '''
     Will instatiate the drumseq.Sequencer with the
@@ -49,7 +67,7 @@ class MidiOut(contextlib.AbstractContextManager): # check docs for this
         except (EOFError, KeyboardInterrupt):
             return
 
-        seq = drumseq_orig.Sequencer(midiout, pattern, args.bpm, args.channel - 1)
+        seq = DreamSequencer(midiout, pattern)
 
         print("Playing drum loop at %.1f BPM, press Control-C to quit." % seq.bpm)
 
@@ -71,13 +89,13 @@ class MidiOut(contextlib.AbstractContextManager): # check docs for this
     def __enter__(self): # __init__ can serve as __enter__ 
         pass
 
-    def __exit__(self):
+    def __exit__(self, exec_type, exec_value, traceback):
         '''
         catches errors and handles them a certain way
         Clean up transcription, midi ports, etc. 
         you can re raise the exception here to see what happened
         '''
-        pass
+        self.sequencer.stop()
 
     def play(self):
         '''
@@ -104,7 +122,6 @@ class MidiFileOut():
 
 if __name__ == "__main__":
     
-    # look at docopt docs
     arguments = docopt.docopt(HELP, version='Syncoi v0.1')
     from pprint import pprint; print('arguments:'); pprint(arguments)
     # optionally transform our input file to what drumseq.Sequencer expects
@@ -118,7 +135,7 @@ if __name__ == "__main__":
     drumseq_pattern = parser.output_drumseq()
     print(f"drumseq_pattern: '{drumseq_pattern}'")
 
-    # deciedes
+    # decides whatthe output used with 'with' will be
     output_class = None
     if arguments['-o'] or arguments['--output']:
         output_class = MidiFileOut
