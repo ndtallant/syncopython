@@ -51,10 +51,6 @@ class DreamSequencer(drumseq.Sequencer):
         self.done = True
         self.join()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/got-it-working
 class MidiOut(): # check docs for this
     '''
     Will instatiate the drumseq.Sequencer with the
@@ -137,7 +133,7 @@ class MidiFileOut():
 
 if __name__ == "__main__":
 
-    arguments = docopt.docopt(HELP, version='Syncoi v0.1')
+    arguments = docopt.docopt(HELP, version='syncopython v0.1')
     
     parser = Transcription(input_pattern=arguments['--input'])
     drumseq_pattern = parser.output_drumseq()
