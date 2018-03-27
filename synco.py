@@ -13,7 +13,6 @@ from rtmidi.midiutil import open_midioutput
 import drumseq
 import transcription
 
-
 HELP = '''
 Usage:
   synco.py -h | --help
