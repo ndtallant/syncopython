@@ -66,7 +66,7 @@ class MidiOut(): # check docs for this
         if not input_pattern:
             raise TypeError('must have input_pattern to play!')
 
-        self.drumseq_pattern = self.parse_drummer(input_pattern) # change name to make sense
+        self.drumseq_pattern = self.transcribe(input_pattern)
 
         try:
             midiout, port_name = open_midioutput(
@@ -77,16 +77,14 @@ class MidiOut(): # check docs for this
 
         except (EOFError, KeyboardInterrupt):
             return
-
+        # if tempo?
         self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
 
-
-
-    def parse_drummer(self, input_pattern):
+    def transcribe(self, input_pattern):
         t = transcription.Transcription(input_pattern)
         return t.output_drumseq()
 
-    def __enter__(self): # __init__ can serve as __enter__
+    def __enter__(self): 
         return self
 
     def __exit__(self, exec_type, exec_value, traceback):
@@ -119,7 +117,6 @@ class MidiOut(): # check docs for this
         finally:
             self.stop()
 
-
 class MidiFileOut():
     '''
     Will instatiate the drumseq.Sequencer with the
@@ -135,15 +132,10 @@ class MidiFileOut():
 if __name__ == "__main__":
 
     arguments = docopt.docopt(HELP, version='Syncoi v0.1')
-    # optionally transform our input file to what drumseq.Sequencer expects
-
-    # if arguments['midi']:
-    #      output = MidiOut(**arguments)
-    # print(arguments)
 
     # decides whatthe output used with 'with' will be
     OutputClass = None
-    if arguments['-o'] or arguments['--output']:
+    if arguments['-o']:
         OutputClass = MidiFileOut
     else:
         OutputClass = MidiOut
