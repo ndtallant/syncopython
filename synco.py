@@ -17,16 +17,16 @@ import transcription
 HELP = '''
 Usage:
   synco.py -h | --help
-  synco.py [-p=PORT | --port=PORT]
-  synco.py [ -i=FILE | --input=FILE ] [-o=FILE | --output=FILE ]
+  synco.py [ -p PORT ]
+  synco.py [ -i FILE ] [ -o FILE ]
 
 Options:
-  -h       --help         Show this screen.
-  -i FILE,  --input       Sets the input file.
-  -o=FILE  --output=FILE  Sets the output file.
-  -t=TEMPO --tempo=TEMPO  [default: 102].
-  -s=<arg> --sound=<arg>  [default: 'SN'].
-  -p=PORT  --port=PORT    [default: 'TiMiditiy port 0'].
+  -h        Show this screen.
+  -i FILE   Sets the input file.
+  -o FILE   Sets the output file.
+  -t TEMPO  [default: 102].
+  -s <arg>  [default: 'SN'].
+  -p PORT   [default: 'TiMiditiy port 0'].
        '''
 
 class DreamSequencer(drumseq.Sequencer):
