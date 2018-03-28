@@ -42,6 +42,7 @@ class Transcription:
         Modify internal state according to new input.
         '''
         for item in new_input.split('\n'):
+            print(type(item), item)
             patch, rs, label = item.split('|')
             self.stack.append(RhythmString(patch, rs, label))
         # Not sure if I want to have a fresh stack each time
