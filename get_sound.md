@@ -114,3 +114,9 @@ I only got this to work in a very specfic way - need to figure out why it works 
 * run play_midi_file.py <file> 'tiMiditiy port 0'
 
 The port name was found using list_ports.py. Other tiMidity ports worked.
+
+### Sound test checklist
+
+1. Check midi file plays natively with pmidi (above)
+2. drumseq sequencer plays natively
+  * run server?

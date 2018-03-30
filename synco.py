@@ -48,8 +48,7 @@ class DreamSequencer(drumseq.Sequencer):
         self.done = True
         self.join()
 
-
-class MidiOut(): # check docs for this
+class MidiOut(): 
     '''
     Will instatiate the drumseq.Sequencer with the
     parsed pattern from user input (shell).
@@ -63,10 +62,13 @@ class MidiOut(): # check docs for this
         Play will actually call sequencer (see below)
         '''
 
-        if not input_pattern:
+        if not (input_pattern or drumseq_pattern):
             raise TypeError('must have input_pattern to play!')
 
-        self.drumseq_pattern = self.transcribe(input_pattern)
+        if drumseq_pattern:
+            self.drumaeq_pattern = drumseq_pattern
+        else:
+            self.drumseq_pattern = self.transcribe(input_pattern)
 
         try:
             midiout, port_name = open_midioutput(

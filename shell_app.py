@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 # Nick Tallant - syncopython
 
-# initialization section, creates the application instance cli is run in main
+# project
+from transcription import Transcription, RhythmString
+
+# initialization section, creates the app instance (cli is run in main)
 
 from prompt_toolkit.interface import CommandLineInterface
 from prompt_toolkit.application import Application
 from prompt_toolkit.shortcuts import create_eventloop
 from prompt_toolkit.key_binding.manager import KeyBindingManager
 from prompt_toolkit.keys import Keys
+from prompt_toolkit import prompt
 
 manager = KeyBindingManager()
-registry = manager.registry
+registry = manager.registry # registry of keyboard shortcuts for application
 loop = create_eventloop()
-application = Application(key_bindings_registry=registry)
-cli = CommandLineInterface(application=application, eventloop=loop)
 
 @registry.add_binding(Keys.ControlQ, eager=True)
 def exit_(event):
@@ -25,7 +27,9 @@ def exit_(event):
     ''' 
     event.cli.set_return_value(None)
 
-'''
+application = Application(key_bindings_registry=registry)
+cli = CommandLineInterface(application=application, eventloop=loop)
+
 # layout section, the goal to have a left window for entry
 # and a right window for viewing the drum beat
 
@@ -52,8 +56,27 @@ layout = VSplit([
     Window(content=TokenListControl(
         get_tokens=lambda cli: [(Token, 'Hello world')])),
 ])
-'''
+
+def prompt_a_drummer():
+    '''
+    Prompts the user to make a drummer - four
+    separate rhythms.
+    '''
+    hh = prompt('Hi-Hat: ')
+    sn = prompt('Snare: ')
+    bd = prompt('Kick: ')
+
+    hatRS = RhythmString(42, hh, 'Hi-Hat')
+    snRS = RhythmString(38, sn, 'Snare')
+    bdRS = RhythmString(36, bd, 'Kick') 
+    t = Transcription()
+    t.stack = [hatRS, snRS, bdRS]
+
+    out_str = t.output_drumseq()
+    print(out_str)
+
 if __name__ == "__main__":
     # don't run until you have an exit method
-    # cli.run()
+    #cli.run()
+    prompt_a_drummer()
     print('Exiting')

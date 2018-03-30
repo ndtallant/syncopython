@@ -55,7 +55,7 @@ class Transcription:
        rv = '#  1...2...3...4...\n'
        for r in self.stack: # need \n between RS?
           ds_rhythm = self.drumseq_helper(r.rhythm) 
-          rv += '{}{} {}\n'.format(r.patch, ds_rhythm, r.label) 
+          rv += '{} {} {}\n'.format(r.patch, ds_rhythm, r.label) 
        return rv
         
     def drumseq_helper(self, rhythm):
