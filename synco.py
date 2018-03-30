@@ -55,7 +55,7 @@ class MidiOut():
     and play notes when .play() is called
     '''
 
-    def __init__(self, input_pattern=None, port_desc=None, **kwargs):
+    def __init__(self, input_pattern=None, drumseq_pattern=None, port_desc=None, **kwargs):
         '''
         This will take most of the functionality of __enter__
         i.e. - it will load an instance of the seqquencer with the pattern.
@@ -66,10 +66,11 @@ class MidiOut():
             raise TypeError('must have input_pattern to play!')
 
         if drumseq_pattern:
-            self.drumaeq_pattern = drumseq_pattern
+            print('HAS A DRUMSEQ PATTERN')
+            self.drumseq_pattern = drumseq_pattern
         else:
             self.drumseq_pattern = self.transcribe(input_pattern)
-
+        print(self.drumseq_pattern)
         try:
             midiout, port_name = open_midioutput(
                 port_desc,

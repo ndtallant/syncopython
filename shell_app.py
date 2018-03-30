@@ -3,6 +3,7 @@
 
 # project
 from transcription import Transcription, RhythmString
+from synco import MidiOut
 
 # initialization section, creates the app instance (cli is run in main)
 
@@ -72,11 +73,13 @@ def prompt_a_drummer():
     t = Transcription()
     t.stack = [hatRS, snRS, bdRS]
 
-    out_str = t.output_drumseq()
-    print(out_str)
-
+    return t.output_drumseq()
+    
 if __name__ == "__main__":
     # don't run until you have an exit method
     #cli.run()
-    prompt_a_drummer()
-    print('Exiting')
+    drumseq_pattern = prompt_a_drummer()
+    #Out = MidiOut(drumseq_pattern=drumseq_pattern)
+    with MidiOut(drumseq_pattern=drumseq_pattern) as out:
+        out.play()
+    print('Nice Beat! See you next time.')
