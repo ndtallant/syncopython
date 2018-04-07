@@ -67,7 +67,7 @@ Hi-Hat: 1&,2&,3&,4&
 Snare:    ,2 ,  ,4 
 Kick:   1 ,  ,3 , 
 ```
-[ ](drum_beat.png)
+![ ](drum_beat.png)
 
 ### Other To-Do
 Make soft synth level configurable in VM - or see what the default setting is 
