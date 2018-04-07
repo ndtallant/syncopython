@@ -62,10 +62,11 @@ Rhythmic notation is simply the universal counting system, with each beat separa
 
 And the following prompt would result in a basic drum beat (shown below):
 
+```
 Hi-Hat: 1&,2&,3&,4&
 Snare:    ,2 ,  ,4 
 Kick:   1 ,  ,3 , 
-
+```
 [ ](drum_beat.png)
 
 ### Other To-Do
