@@ -72,6 +72,14 @@ Kick:   1 ,  ,3 ,
 Sixteenth notes can also be notated with standard counting:
 ![ ](16th.png)
 
+The prompt for that beat would be:
+
+```
+Hi-Hat: 1e&a,2e&a,3e&a,4e&a
+Snare:    ,2 ,  ,4
+Kick:   1 ,  ,3 ,
+
+
 
 ### Other To-Do
 Make soft synth level configurable in VM - or see what the default setting is
