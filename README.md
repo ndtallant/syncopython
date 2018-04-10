@@ -85,6 +85,6 @@ Kick:   1 ,  ,3 ,
 Make soft synth level configurable in VM - or see what the default setting is
 
 Contribute
----------
+----------
 - [Submit an Issue](https://github.com/ndtallant/syncopython/issues)
 - [Source Code](https://github.com/ndtallant/syncopython)
