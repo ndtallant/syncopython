@@ -22,6 +22,7 @@ Usage:
 
 Options:
   -h        Show this screen.
+  -v        Prints arguments w/ output.
   -i FILE   Sets the input file.
   -o FILE   Sets the output file.
   -t TEMPO  [default: 102].
@@ -61,9 +62,7 @@ class MidiOut():
         i.e. - it will load an instance of the seqquencer with the pattern.
         Play will actually call sequencer (see below)
         '''
-
-        #if not (input_pattern or drumseq_pattern):
-        #    raise TypeError('must have input_pattern to play!')
+        print('User port is:', user_port)
 
         if drumseq_pattern:
             self.drumseq_pattern = drumseq_pattern
@@ -74,9 +73,9 @@ class MidiOut():
         try:
             midiout, port_name = open_midioutput(
                 port_name=user_port,
-                api=rtmidi.API_RTMIDI_DUMMY, # play around with these
-                client_name="syncopython")
-        except (EOFError, KeyboardInterrupt):
+                api=rtmidi.API_LINUX_ALSA,    # APIs: 
+                client_name="syncopython")    #    LINUX_ALSA - worked, still a prompt
+        except (EOFError, KeyboardInterrupt): #    RTMIDI_DUMMY - worked, still a prompt
             return
         self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
 
@@ -133,13 +132,14 @@ if __name__ == "__main__":
 
     arguments = docopt.docopt(HELP, version='Syncoi v0.1')
 
-    # decides whatthe output used with 'with' will be
     OutputClass = None
     if arguments['-o']:
         OutputClass = MidiFileOut
     else:
         OutputClass = MidiOut
-    print("arguments:", arguments)
+    
+    #if arguments['-v']: 
+    #    print("arguments:", arguments)
 
-    with OutputClass(input_pattern=arguments['-i']) as out:
+    with OutputClass(input_pattern=arguments['-i'], user_port='1') as out:
         out.play()

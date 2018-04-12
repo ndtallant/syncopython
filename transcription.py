@@ -4,7 +4,6 @@ Classes that form the basis for syncopython.
 The rhythm string for each limb will be parsed and joined
 to output to drumseq.py as I develop a backend.
 '''
-
 import re
 
 class RhythmString:
@@ -33,7 +32,7 @@ class Transcription:
         self.stack = []
 
         if input_str:
-            print(input_str) #getting extra positional argument
+            print(input_str) # document if there are spaces in example doc
             self.feed(input_str)
 
     def feed(self, new_input): 
@@ -42,10 +41,8 @@ class Transcription:
         Modify internal state according to new input.
         '''
         for item in new_input.split('\n'):
-            print(type(item), item)
             patch, rs, label = item.split('|')
             self.stack.append(RhythmString(patch, rs, label))
-        # Not sure if I want to have a fresh stack each time
 
     def output_drumseq(self):
        '''
@@ -69,9 +66,3 @@ class Transcription:
 
     def beat_parse(self, exp, beat):
        return 'x' if re.search(exp, beat) else '.'
-
-if __name__ == "__main__":
-     RH = RhythmString(42, '1 &, 2 &, 3 &, 4 &', 'HH')
-     LH = RhythmString(38, '   , 2  ,    , 4  ', 'Snare')
-     RF = RhythmString(36, '1  ,   &, 3  ,   &', 'Kick')
-     LF = RhythmString(42, '   , 2  ,    , 4  ', 'Foot')
