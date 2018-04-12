@@ -55,7 +55,7 @@ class MidiOut():
     and play notes when .play() is called
     '''
 
-    def __init__(self, input_pattern=None, drumseq_pattern=None, port_desc=None, **kwargs):
+    def __init__(self, input_pattern=None, drumseq_pattern=None, user_port=None, **kwargs):
         '''
         This will take most of the functionality of __enter__
         i.e. - it will load an instance of the seqquencer with the pattern.
@@ -73,11 +73,9 @@ class MidiOut():
             raise TypeError('must have input_pattern to play!')
         try:
             midiout, port_name = open_midioutput(
-                port_desc,
+                port_name=user_port,
                 api=rtmidi.API_RTMIDI_DUMMY, # play around with these
-                client_name="syncopython",
-            )
-
+                client_name="syncopython")
         except (EOFError, KeyboardInterrupt):
             return
         self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
