@@ -25,11 +25,18 @@ def prompt_inst():
     inst_entry = prompt("> ", completer=inst_completer) #pass history in here or nah?
     
     if inst_entry in inst_list:
-        rs = prompt("Rhythm > ") #pass history in here or nah?
+        rs = prompt_rhythm()       
         print(inst_entry,':',rs)
     else:
         print('Enter Hi-Hat, Snare, or Kick')
+def prompt_rhythm():
+    '''
+    Prompts the user for a rhythm
 
+    put error handling here maybe????
+    '''
+    return prompt("    Rhythm > ") #pass history in here or nah?
+    
 def change_inst(rm_inst=False):
     '''
     Will update the transcription stack and overwrite an instrument.
@@ -51,6 +58,7 @@ def go():
 
     while True:
         try:
+            #main_prompt() 
             prompt_inst()    
         except EOFError:
             break  # Control-D pressed.
