@@ -67,10 +67,10 @@ Hi-Hat: 1&,2&,3&,4&
 Snare:    ,2 ,  ,4
 Kick:   1 ,  ,3 ,
 ```
-![ ](drum_beat.png)
+![ ](docs/drum_beat.png)
 
 Sixteenth notes can also be notated with standard counting:
-![ ](16th.png)
+![ ](docs/16th.png)
 
 The prompt for that beat would be:
 
