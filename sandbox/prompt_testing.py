@@ -3,7 +3,6 @@
 Nick Tallant
 This file is a sandbox for building an application in prompt toolkit.
 '''
-
 from __future__ import unicode_literals
 from prompt_toolkit import prompt
 from prompt_toolkit.history import InMemoryHistory
@@ -12,10 +11,12 @@ from prompt_toolkit.contrib.completers import WordCompleter
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
 inst_completer= WordCompleter(inst_list, ignore_case=True)
 
+
 command_completer = WordCompleter(['Add Drumkit',
                                    'Add Instrument',
                                    'Change Instrument Rhythm',
-                                   'Delete Instrument'],
+                                   'Delete Instrument',
+                                   'help'],
                                    ignore_case=True)
 def prompt_inst():
     '''
@@ -29,6 +30,7 @@ def prompt_inst():
         print(inst_entry,':',rs)
     else:
         print('Enter Hi-Hat, Snare, or Kick')
+
 def prompt_rhythm():
     '''
     Prompts the user for a rhythm
@@ -51,18 +53,33 @@ def change_inst(rm_inst=False):
     '''
     action = 'remove' if rm_inst else 'change' 
     print('What instrument to you want to {}?'.format(action)) 
+    prompt_inst() 
 
+def get_help():
+    pass
+
+def prompt_command():
+    '''
+    Interface for user to enter commands in command completer.
+    '''
+    command_map = {'Add Drumkit': prompt_inst,
+               'Add Instrument': prompt_inst,
+               'Change Instrument Rhythm': change_inst,
+               'Delete Instrument': change_inst,
+               'help' : get_help}
+
+    print('Welcome to syncopython! Enter `help` to see additional commands.')
+    command = prompt("> ", completer=command_completer) 
      
+
 def go():
     history = InMemoryHistory()
-
     while True:
         try:
             #main_prompt() 
             prompt_inst()    
         except EOFError:
             break  # Control-D pressed.
-
     print('Sweet Beats!')
 
 if __name__ == '__main__':
