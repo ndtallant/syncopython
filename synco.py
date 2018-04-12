@@ -62,15 +62,15 @@ class MidiOut():
         Play will actually call sequencer (see below)
         '''
 
-        if not (input_pattern or drumseq_pattern):
-            raise TypeError('must have input_pattern to play!')
+        #if not (input_pattern or drumseq_pattern):
+        #    raise TypeError('must have input_pattern to play!')
 
         if drumseq_pattern:
-            print('HAS A DRUMSEQ PATTERN')
             self.drumseq_pattern = drumseq_pattern
-        else:
+        elif input_pattern:
             self.drumseq_pattern = self.transcribe(input_pattern)
-        print(self.drumseq_pattern)
+        else: 
+            raise TypeError('must have input_pattern to play!')
         try:
             midiout, port_name = open_midioutput(
                 port_desc,
@@ -80,7 +80,6 @@ class MidiOut():
 
         except (EOFError, KeyboardInterrupt):
             return
-        # if tempo?
         self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
 
     def transcribe(self, input_pattern):

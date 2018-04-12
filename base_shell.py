@@ -52,6 +52,7 @@ if __name__ == "__main__":
             cli input needs to be an Input type (std in?)
             Plugging in the prompt sequence as an event
             is the missing piece. Maybe in loop? 
-        ''' 
+        '''
+
     cli.run()
     print('Exiting')
