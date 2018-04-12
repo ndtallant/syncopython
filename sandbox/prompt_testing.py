@@ -17,7 +17,6 @@ command_completer = WordCompleter(['Add Drumkit',
                                    'Change Instrument Rhythm',
                                    'Delete Instrument'],
                                    ignore_case=True)
-
 def prompt_inst():
     '''
     This function prompts the user for an instrument,
@@ -31,12 +30,22 @@ def prompt_inst():
     else:
         print('Enter Hi-Hat, Snare, or Kick')
 
-def change_inst():
-    pass
+def change_inst(rm_inst=False):
+    '''
+    Will update the transcription stack and overwrite an instrument.
+    Most funtionality is contained in prompt_inst, the difference here
+    being the output to the transcription stack.
+    
+    Rather than having a seperate function, this one 'deletes'
+    an instrument by the boolen kwarg rm_inst. It just sets
+    the instrument to all rests.
 
-def rm_inst():
-    pass
+    May need to update transcription significantly!
+    '''
+    action = 'remove' if rm_inst else 'change' 
+    print('What instrument to you want to {}?'.format(action)) 
 
+     
 def go():
     history = InMemoryHistory()
 
