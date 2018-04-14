@@ -10,8 +10,8 @@ import rtmidi
 from rtmidi.midiutil import open_midioutput
 
 # our project
-import drumseq
-import transcription
+from . import drumseq
+from . import transcription
 
 
 HELP = '''
