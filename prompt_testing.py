@@ -11,6 +11,7 @@ from prompt_toolkit.contrib.completers import WordCompleter
 
 # Project Specific
 from src.transcription import Transcription as Tr
+from src.user_messages import load_screen, get_help
 import src.synco
 
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
@@ -30,13 +31,17 @@ def prompt_inst(no_rhythm=False):
     and then prompts for a new rhythm.
     '''
     while True:    
+        
         inst_entry = prompt("   Instrument > ", completer=inst_completer) #pass history in here or nah?
+        
         if no_rhythm:
             return inst_entry
+        
         if inst_entry in inst_list:
-            rs = prompt_rhythm()       
+            rhy = prompt_rhythm()       
             print(inst_entry,':',rs, '\n')
             break
+        
         else:
             print('   Enter Hi-Hat, Snare, or Kick')
 
@@ -65,9 +70,6 @@ def change_inst(rm_inst=False):
     else:
         prompt_inst() 
 
-def get_help():
-    pass
-
 def prompt_command(t, action):
     '''Interface for user to enter commands in command completer.'''
     
@@ -93,8 +95,9 @@ def prompt_command(t, action):
     return t, action
 
 if __name__ == '__main__':
-
-    print('\nWelcome to syncopython! Enter `help` to see additional commands.\n')
+    
+    load_screen()
+    #print('\nWelcome to syncopython! Enter `help` to see additional commands.\n')
     history = InMemoryHistory()
     while True:
         try:
