@@ -18,7 +18,7 @@ class RhythmString:
         self.label = '' 
         self.patch = '' 
         self.rhythm = '' 
-        self.d_set = STOCK
+        self.d_set = STOCK 
 
     def set_patch(self):
         self.patch = self.d_set[self.label]

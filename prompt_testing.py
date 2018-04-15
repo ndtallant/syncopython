@@ -16,7 +16,7 @@ from src.user_messages import load_screen, get_help
 from src.synco_2 import MidiOut
 
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
-inst_completer= WordCompleter(inst_list, ignore_case=True)
+
 
 
 command_completer = WordCompleter(['Add Instrument',
@@ -26,77 +26,81 @@ command_completer = WordCompleter(['Add Instrument',
                                    'help', 'exit', 'play'],
                                    ignore_case=True)
 
-def prompt_inst(no_rhythm=False):
+def prompt_inst(comp_list=inst_list, no_rhythm=False):
     '''
     This function prompts the user for an instrument,
     and then prompts for a new rhythm.
     '''
     r = RhythmString()
+    comp= WordCompleter(inst_list, ignore_case=True)
     
     while True:    
         
-        inst_entry = prompt("   Instrument > ", completer=inst_completer) #pass history in here or nah?
-        
-        if no_rhythm:
-            break 
-        
-        if inst_entry in inst_list:
+        inst_entry = prompt("   Instrument > ", completer=comp) #pass history in here or nah?
+
+        if inst_entry in comp_list:
+            if no_rhythm:
+                return inst_entry   
             rhy = prompt_rhythm()       
             break
-        
+      
         else:
-            print('   Enter Hi-Hat, Snare, or Kick')
-
+            print('\nPlease Enter one of the following: ') 
+            for option in comp_list:
+                print(option)
+            print('\n')
+    
     r.label = inst_entry
     r.rhythm = rhy
     r.set_patch()
-    print(r) 
     return r 
     
 def prompt_rhythm():
-    '''
-    Prompts the user for a rhythm
-    put error handling here maybe????
-    '''
-    return prompt("     Rhythm > ") #pass history in here or nah?
+    '''Prompts the user for a rhythm, put error handling here maybe'''
+    return prompt("     Rhythm > ") 
      
 def change_inst(rm_inst=False):
     '''
     Will update the transcription stack and overwrite an instrument.
-    Most funtionality is contained in prompt_inst, the difference here
-    being the output to the transcription stack.
-    
-    Rather than having a seperate function, this one 'deletes'
-    an instrument by the boolen kwarg rm_inst. It just sets
-    the instrument to all rests.
     '''
-    action = 'remove' if rm_inst else 'change' 
-    print('What instrument to you want to {}?'.format(action)) 
-    if rm_inst:
-        inst = prompt_inst(no_rhythm=True)
-        print('Removed {}'.format(inst)) 
+    raise NotImplementedError 
+
+def del_inst(t):
+    '''Deletes an Instrument from the Stack'''
+    del_completer = [inst.label for inst in t.stack]
+    if del_completer:
+        print('What instrument to you want to remove?') 
+        label = prompt_inst(comp_list=del_completer, no_rhythm=True) 
+        t.stack = [inst for inst in t.stack if inst.label != label] 
     else:
-        prompt_inst() 
+        print('There are no instruments on your kit yet!')
+    return t
 
 def prompt_command(t, action):
     '''Interface for user to enter commands in command completer.'''
     
     command = prompt("> ", completer=command_completer) 
 
-    if command in ('Add Instrument', 'Add Drumkit'):
+    if command == 'Add Instrument':
         t.stack.append(prompt_inst())
-        print(t.stack) 
+
     if command == 'Change Instrument':
         t = change_inst()
+ 
     if command == 'Delete Instrument':
-        t = change_inst(rm_inst=True)
+        t = del_inst(t)
+
     if command in {'play', 'exit', 'help'}:
         action = command 
+
     if command == 'See Drumkit':
         try: 
-            print(t.stack)
+            for inst in t.stack:
+                print(inst)
+            
             if len(t.stack) == 0:
-                print('I can\'t see a drumset right now :( ')
+                print('There are no instruments on your kit!')
+        
         except: # I know...
             print('I can\'t see a drumset right now')
             print('Dev-note: no Transcription stack')
