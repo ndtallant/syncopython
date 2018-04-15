@@ -121,7 +121,6 @@ if __name__ == '__main__':
                 get_help()
             
             if action == 'play':
-                print(t.output_drumseq()) 
                 with MidiOut(t=t, user_port='1') as out:
                     out.play()
             

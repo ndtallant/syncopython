@@ -51,11 +51,13 @@ class MidiOut():
             raise TypeError('Must have instruments to play!')
         try:
             midiout, port_name = open_midioutput(
-                port_name=user_port,
-                api=rtmidi.API_LINUX_ALSA,    # APIs: 
-                client_name="syncopython")    #    LINUX_ALSA - worked, still a prompt
-        except (EOFError, KeyboardInterrupt): #    RTMIDI_DUMMY - worked, still a prompt
-            return
+               '1', # this is the output port, use 'fluid' if using fluidsynth 
+                port_name="MIDI Out",
+                api=rtmidi.API_RTMIDI_DUMMY,    # APIs: 
+                client_name="syncopython",      #    LINUX_ALSA - worked, still a prompt
+                use_virtual=False)              #    RTMIDI_DUMMY - worked, still a prompt
+        except (EOFError, KeyboardInterrupt):   
+            pass
         
         self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
 
