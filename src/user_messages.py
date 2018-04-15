@@ -15,7 +15,7 @@ def load_screen():
 
 def get_help():
     message = ('\n\n'
-               'Commands:\n '
+               'Commands:\n'
                '          Add Instrument     \n'
                '          Delete Instrument  \n'
                '          Change Instrument  \n'
@@ -26,6 +26,7 @@ def get_help():
                '          Snare \n'
                '          Kick  \n\n'
                'Notation Ex:\n'
-               '         "1e&a, 2&, 3e a, 4" \n\n')
+               '          1e&a, 2&, 3e a, 4 \n'
+               '          1   ,   ,3    , 4 \n')
     print(message)
 

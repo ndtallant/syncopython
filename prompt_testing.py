@@ -10,16 +10,17 @@ from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.contrib.completers import WordCompleter
 
 # Project Specific
-from src.transcription import Transcription as Tr
+from src.transcription import Transcription 
+from src.transcription import RhythmString 
 from src.user_messages import load_screen, get_help
-import src.synco
+from src.synco_2 import MidiOut
 
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
 inst_completer= WordCompleter(inst_list, ignore_case=True)
 
 
 command_completer = WordCompleter(['Add Instrument',
-                                   'Change Instrument Rhythm',
+                                   'Change Instrument',
                                    'Delete Instrument',
                                    'See Drumkit',
                                    'help', 'exit', 'play'],
@@ -30,21 +31,28 @@ def prompt_inst(no_rhythm=False):
     This function prompts the user for an instrument,
     and then prompts for a new rhythm.
     '''
+    r = RhythmString()
+    
     while True:    
         
         inst_entry = prompt("   Instrument > ", completer=inst_completer) #pass history in here or nah?
         
         if no_rhythm:
-            return inst_entry
+            break 
         
         if inst_entry in inst_list:
             rhy = prompt_rhythm()       
-            print(inst_entry,':',rs, '\n')
             break
         
         else:
             print('   Enter Hi-Hat, Snare, or Kick')
 
+    r.label = inst_entry
+    r.rhythm = rhy
+    r.set_patch()
+    print(r) 
+    return r 
+    
 def prompt_rhythm():
     '''
     Prompts the user for a rhythm
@@ -76,7 +84,8 @@ def prompt_command(t, action):
     command = prompt("> ", completer=command_completer) 
 
     if command in ('Add Instrument', 'Add Drumkit'):
-        t = prompt_inst()
+        t.stack.append(prompt_inst())
+        print(t.stack) 
     if command == 'Change Instrument':
         t = change_inst()
     if command == 'Delete Instrument':
@@ -97,19 +106,25 @@ def prompt_command(t, action):
 if __name__ == '__main__':
     
     load_screen()
-    #print('\nWelcome to syncopython! Enter `help` to see additional commands.\n')
     history = InMemoryHistory()
+    t = Transcription() 
     while True:
         try:
-            t = Tr()
             action = None 
             t, action = prompt_command(t, action)    
+            
             if action == 'help':
                 get_help()
+            
             if action == 'play':
-                print('This will play a beat soon...')
+                print(t.output_drumseq()) 
+                with MidiOut(t=t, user_port='1') as out:
+                    out.play()
+            
             if action == 'exit':
                 break 
+        
         except EOFError:
             break  # Control-D pressed.
+    
     print('\nSweet Beats!\n')
