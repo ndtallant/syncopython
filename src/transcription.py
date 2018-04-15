@@ -6,18 +6,25 @@ to output to drumseq.py as I develop a backend.
 '''
 import re
 
+STOCK = {'Kick': '35', 'Snare': '38', 'Hi-Hat': '42'}
+HOUSE = {'Kick': '36', 'Snare': '39', 'Hi-Hat': '70'}
+
 class RhythmString:
     '''
     RhythmString object has a MIDI sound #, RhythmString, and label.
     '''
 
-    def __init__(self, patch, rs, label):
-        self.patch = patch
-        self.rhythm = rs
-        self.label = label
+    def __init__(self):
+        self.label = '' 
+        self.patch = '' 
+        self.rhythm = '' 
+        self.d_set = STOCK 
+
+    def set_patch(self):
+        self.patch = self.d_set[self.label]
 
     def __str__(self):
-        return '{} "{}" {}'.format(self.patch, self.rhythm, self.label)
+        return '{}: "{}"'.format(self.label, self.rhythm)
 
 class Transcription:
     '''
