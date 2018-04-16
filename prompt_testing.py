@@ -59,19 +59,20 @@ def prompt_rhythm():
     '''Prompts the user for a rhythm, put error handling here maybe'''
     return prompt("     Rhythm > ") 
      
-def change_inst(rm_inst=False):
-    '''
-    Will update the transcription stack and overwrite an instrument.
-    '''
-    raise NotImplementedError 
-
-def del_inst(t):
+def change_inst(t, delete=False):
     '''Deletes an Instrument from the Stack'''
-    del_completer = [inst.label for inst in t.stack]
-    if del_completer:
-        print('What instrument to you want to remove?') 
-        label = prompt_inst(comp_list=del_completer, no_rhythm=True) 
-        t.stack = [inst for inst in t.stack if inst.label != label] 
+    action = 'remove' if delete else 'change'
+    
+    stack_list = [inst.label for inst in t.stack]
+    
+    if stack_list:
+        print('What instrument to you want to {}?'.format(action)) 
+        if delete: 
+            label = prompt_inst(comp_list=stack_list, no_rhythm=True) 
+            t.stack = [inst for inst in t.stack if inst.label != label] 
+        else:
+            new_r = prompt_inst(comp_list=stack_list)
+            t.stack = [rs for rs in t.stack if rs.label != new_r.label] + [new_r]
     else:
         print('There are no instruments on your kit yet!')
     return t
@@ -85,10 +86,10 @@ def prompt_command(t, action):
         t.stack.append(prompt_inst())
 
     if command == 'Change Instrument':
-        t = change_inst()
+        t = change_inst(t)
  
     if command == 'Delete Instrument':
-        t = del_inst(t)
+        t = change_inst(t, rm_inst=True)
 
     if command in {'play', 'exit', 'help'}:
         action = command 
