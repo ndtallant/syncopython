@@ -18,6 +18,7 @@ class DreamSequencer(drumseq.Sequencer):
 
     def __init__(self, midiout, pattern, bpm=100, channel=9, volume=127):
         super().__init__(midiout, pattern, bpm, channel, volume)
+        #  
         self.midiout = midiout
         self.bpm = max(20, min(bpm, 400))
         self.interval = 15. / self.bpm
@@ -26,10 +27,13 @@ class DreamSequencer(drumseq.Sequencer):
         self.volume = volume
 
     def play(self):
+        # This extends from drumseq which extends from thread which has this method. 
+        # Make a new thread for the output and control it 
         self.start()
 
     def stop(self):
         self.done = True
+        # This closes the loop so user can input again 
         self.join()
 
 class MidiOut(): 

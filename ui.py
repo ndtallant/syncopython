@@ -12,17 +12,16 @@ from prompt_toolkit.contrib.completers import WordCompleter
 # Project Specific
 from src.transcription import Transcription 
 from src.transcription import RhythmString 
-from src.user_messages import load_screen, get_help
+from src.user_messages import load_screen, get_help, get_examples
 from src.synco_2 import MidiOut
 
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
-
-
 
 command_completer = WordCompleter(['Add Instrument',
                                    'Change Instrument',
                                    'Delete Instrument',
                                    'See Drumkit',
+                                   'Examples',
                                    'help', 'exit', 'play'],
                                    ignore_case=True)
 
@@ -42,13 +41,13 @@ def prompt_inst(comp_list=inst_list, no_rhythm=False):
             if no_rhythm:
                 return inst_entry   
             rhy = prompt_rhythm()       
+            print() 
             break
       
         else:
             print('\nPlease Enter one of the following: ') 
             for option in comp_list:
                 print(option)
-            print('\n')
     
     r.label = inst_entry
     r.rhythm = rhy
@@ -89,9 +88,9 @@ def prompt_command(t, action):
         t = change_inst(t)
  
     if command == 'Delete Instrument':
-        t = change_inst(t, rm_inst=True)
-
-    if command in {'play', 'exit', 'help'}:
+        t = change_inst(t, delete=True)
+    
+    if command in {'play', 'exit', 'help', 'Examples'}:
         action = command 
 
     if command == 'See Drumkit':
@@ -105,7 +104,7 @@ def prompt_command(t, action):
         except: # I know...
             print('I can\'t see a drumset right now')
             print('Dev-note: no Transcription stack')
-
+        print()
     return t, action
 
 if __name__ == '__main__':
@@ -120,7 +119,10 @@ if __name__ == '__main__':
             
             if action == 'help':
                 get_help()
-            
+           
+            if action == 'Examples':
+                get_examples()
+
             if action == 'play':
                 with MidiOut(t=t, user_port='1') as out:
                     out.play()
