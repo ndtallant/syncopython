@@ -38,7 +38,7 @@ class Sequencer(threading.Thread):
       - doesn't call self.start at end of __init__
     """
 
-    def __init__(self, midiout, pattern, bpm, channel=9, volume=127):
+    def __init__(self, midiout, pattern, bpm, channel=9, volume=127, maxbars=4):
         super(Sequencer, self).__init__()
         self.midiout = midiout
         self.bpm = max(20, min(bpm, 400))
@@ -46,6 +46,7 @@ class Sequencer(threading.Thread):
         self.pattern = pattern
         self.channel = channel
         self.volume = volume
+        self.maxbars = maxbars # Nick Addition
 
     def run(self):
         self.done = False
@@ -59,7 +60,10 @@ class Sequencer(threading.Thread):
         self.started = timenow()
 
         while not self.done:
-            self.worker()
+            bars = self.worker()
+            print(bars) 
+            if bars == self.maxbars:
+                self.done = True 
             self.callcount += 1
             # Compensate for drift:
             # calculate the time when the worker should be called again.
@@ -77,7 +81,9 @@ class Sequencer(threading.Thread):
         i.e., output notes, emtpy queues, etc.
         """
         self.pattern.playstep(self.midiout, self.channel)
-
+        #print('FROM WORKER', self.pattern.bars)
+        return self.pattern.bars
+    
     def activate_drumkit(self, kit):
         if isinstance(kit, (list, tuple)):
             msb, lsb, pc = kit
@@ -109,6 +115,10 @@ class Drumpattern(object):
     }
 
     def __init__(self, pattern, kit=0, humanize=0):
+        '''
+        Each 'step' is a subdivision (currently 16th notes)
+        '''
+        
         self.instruments = []
         self.kit = kit
         self.humanize = humanize
@@ -150,8 +160,7 @@ class Drumpattern(object):
                     self._notes[note] = velocity
 
         self.step += 1
-        print('playstep', self.step)
-        print('bar # ', self.bars) 
+        # print('bar # ', self.bars) 
         if self.step >= self.steps:
             self.step = 0 # Nick Addition
             self.bars += 1 # Nick Addition
@@ -202,6 +211,8 @@ def main(args=None):
     try:
         while True:
             sleep(1)
+            # if seq.done:
+             #   break
     except KeyboardInterrupt:
         print('')
     finally:
