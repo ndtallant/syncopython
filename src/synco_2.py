@@ -27,13 +27,15 @@ class DreamSequencer(drumseq.Sequencer):
         self.volume = volume
 
     def play(self):
-        # This extends from drumseq which extends from thread which has this method. 
-        # Make a new thread for the output and control it 
+        ''' 
+        This extends from drumseq which extends from thread which has this method. 
+        Make a new thread for the output and control it 
+        ''' 
         self.start()
 
     def stop(self):
+        '''Join closes the loop so user can input again''' 
         self.done = True
-        # This closes the loop so user can input again 
         self.join()
 
 class MidiOut(): 
@@ -88,7 +90,9 @@ class MidiOut():
                 start extends the Thread method
             whatever actually makes the thing run
         '''
-        print("Playing drum loop at %.1f BPM, press Control-C to quit." % self.sequencer.bpm)
+        
+        # print("Playing drum loop at %.1f BPM, press Control-C to quit." % self.sequencer.bpm)
+        
         self.sequencer.play()
         try:
             while True:

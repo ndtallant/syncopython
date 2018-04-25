@@ -127,10 +127,12 @@ class Drumpattern(object):
 
         self.step = 0
         self._notes = {}
+        self.bars = 0 # Nick Addition
 
     def reset(self):
         self.step = 0
-
+        self.bars = 0 # Nick Addition
+    
     def playstep(self, midiout, channel=9):
         for note, strokes in self.instruments:
             char = strokes[self.step]
@@ -148,10 +150,11 @@ class Drumpattern(object):
                     self._notes[note] = velocity
 
         self.step += 1
-
+        print('playstep', self.step)
+        print('bar # ', self.bars) 
         if self.step >= self.steps:
-            self.step = 0
-
+            self.step = 0 # Nick Addition
+            self.bars += 1 # Nick Addition
 
 def main(args=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
