@@ -60,10 +60,11 @@ class Sequencer(threading.Thread):
         self.started = timenow()
 
         while not self.done:
-            bars = self.worker()
-            print(bars) 
-            if bars == self.maxbars:
+            self.current_bar = self.worker() # change to current bar
+            print(self.current_bar) 
+            if self.current_bar >= self.maxbars:
                 self.done = True 
+                print("Done")
             self.callcount += 1
             # Compensate for drift:
             # calculate the time when the worker should be called again.
@@ -82,7 +83,7 @@ class Sequencer(threading.Thread):
         """
         self.pattern.playstep(self.midiout, self.channel)
         #print('FROM WORKER', self.pattern.bars)
-        return self.pattern.bars
+        return self.pattern.current_bar
     
     def activate_drumkit(self, kit):
         if isinstance(kit, (list, tuple)):
@@ -137,11 +138,11 @@ class Drumpattern(object):
 
         self.step = 0
         self._notes = {}
-        self.bars = 0 # Nick Addition
+        self.current_bar = 0 # Nick Addition
 
     def reset(self):
         self.step = 0
-        self.bars = 0 # Nick Addition
+        self.current_bar = 0 # Nick Addition
     
     def playstep(self, midiout, channel=9):
         for note, strokes in self.instruments:
@@ -163,7 +164,7 @@ class Drumpattern(object):
         # print('bar # ', self.bars) 
         if self.step >= self.steps:
             self.step = 0 # Nick Addition
-            self.bars += 1 # Nick Addition
+            self.current_bar += 1 # Nick Addition
 
 def main(args=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])

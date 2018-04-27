@@ -14,17 +14,19 @@ from . import drumseq
 from . import transcription
 
 class DreamSequencer(drumseq.Sequencer):
-    ''' wrapper around drumseq's Sequencer object which has an API closer to what we want to use '''
-
+    ''' 
+    Wrapper around drumseq's Sequencer object which has an API
+    closer to what we want to use 
+    '''
     def __init__(self, midiout, pattern, bpm=100, channel=9, volume=127):
         super().__init__(midiout, pattern, bpm, channel, volume)
-        #  
         self.midiout = midiout
         self.bpm = max(20, min(bpm, 400))
         self.interval = 15. / self.bpm
         self.pattern = drumseq.Drumpattern(pattern)
         self.channel = channel
         self.volume = volume
+        #self.current_bar = 0
 
     def play(self):
         ''' 
@@ -32,6 +34,8 @@ class DreamSequencer(drumseq.Sequencer):
         Make a new thread for the output and control it 
         ''' 
         self.start()
+        #self.current_bar = self.worker() 
+        #print(self.bars)
 
     def stop(self):
         '''Join closes the loop so user can input again''' 
