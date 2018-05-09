@@ -47,7 +47,6 @@ class Sequencer(threading.Thread):
         self.pattern = pattern
         self.channel = channel
         self.volume = volume
-        self.maxbars = maxbars # Nick Addition
 
     def run(self):
         self.done = False
@@ -63,9 +62,6 @@ class Sequencer(threading.Thread):
         while not self.done:
             self.worker()
             self.update_bar(self.pattern.current_bar)
-
-            #if self.current_bar >= self.maxbars:
-            #     self.done = True 
             self.callcount += 1
             # Compensate for drift:
             # calculate the time when the worker should be called again.
@@ -83,7 +79,6 @@ class Sequencer(threading.Thread):
         i.e., output notes, emtpy queues, etc.
         """
         self.pattern.playstep(self.midiout, self.channel)
-        #print('FROM WORKER', self.pattern.bars)
         return self.pattern.current_bar
     
     def activate_drumkit(self, kit):
