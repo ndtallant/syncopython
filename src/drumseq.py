@@ -23,6 +23,7 @@ from rtmidi.midiconstants import (ALL_SOUND_OFF, BANK_SELECT_LSB,
                                   CONTROL_CHANGE, NOTE_ON, PROGRAM_CHANGE)
 
 
+
 FUNKYDRUMMER = """
     #  1...|...|...|...
     36 x.x.......x..x.. Bassdrum
@@ -60,11 +61,11 @@ class Sequencer(threading.Thread):
         self.started = timenow()
 
         while not self.done:
-            self.current_bar = self.worker() # change to current bar
-            print(self.current_bar) 
-            if self.current_bar >= self.maxbars:
-                self.done = True 
-                print("Done")
+            self.worker()
+            self.update_bar(self.pattern.current_bar)
+
+            #if self.current_bar >= self.maxbars:
+            #     self.done = True 
             self.callcount += 1
             # Compensate for drift:
             # calculate the time when the worker should be called again.
@@ -102,6 +103,8 @@ class Sequencer(threading.Thread):
         if kit is not None and pc is not None:
             self.midiout.send_message([PROGRAM_CHANGE | self.channel, pc & 0x7F])
 
+    def update_bar(self, bar):
+        pass
 
 class Drumpattern(object):
     """Container and iterator for a multi-track step sequence."""
@@ -212,8 +215,6 @@ def main(args=None):
     try:
         while True:
             sleep(1)
-            # if seq.done:
-             #   break
     except KeyboardInterrupt:
         print('')
     finally:

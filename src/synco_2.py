@@ -26,7 +26,7 @@ class DreamSequencer(drumseq.Sequencer):
         self.pattern = drumseq.Drumpattern(pattern)
         self.channel = channel
         self.volume = volume
-        #self.current_bar = 0
+        self.bar = 0
 
     def play(self):
         ''' 
@@ -34,8 +34,12 @@ class DreamSequencer(drumseq.Sequencer):
         Make a new thread for the output and control it 
         ''' 
         self.start()
+         
         #self.current_bar = self.worker() 
         #print(self.bars)
+    
+    def update_bar(self, current_bar):
+        print('current bar from DreamSequencer.update_bar:', current_bar)
 
     def stop(self):
         '''Join closes the loop so user can input again''' 
