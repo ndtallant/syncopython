@@ -1,16 +1,31 @@
+class myColors:
+    SYNCO = '\033[33m' 
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    RED = '\033[93m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def load_screen():
-    message = ('\n'
-               ' ----------------------------------------- \n'
-               '|                                         |\n'
-               '|                                         |\n'
-               '|                SYNCOPYTHON              |\n'
-               '|                -----------              |\n'
-               '|                                         |\n'
+    message = (myColors.SYNCO +' \n'
+               ' ' + '-'*41 + ' \n'
+               '|' + ' '*41 + '|\n'
+               '|' + ' '*41 + '|\n'
+               '|' + ' '*15 + 
+                     myColors.UNDERLINE + 
+                     ' SYNCOPYTHON ' 
+                     + myColors.ENDC +
+                     myColors.SYNCO + 
+                     '             |\n'
+               '|' + ' '*41 + '|\n'
+               '|' + ' '*41 + '|\n'
                '|        A text based drum machine.       |\n'
-               '|                                         |\n'
-               '|                                         |\n'
-               ' ----------------------------------------- \n\n'
-               '       Type "help" to see commands.        \n')
+               '|' + ' '*41 + '|\n'
+               '|' + ' '*41 + '|\n'
+               ' ' + '-'*41 + ' \n\n'
+               '       Type ' + myColors.GREEN + '"help"'
+                              + myColors.SYNCO + ' to see commands.\n')
     print(message)
 
 def get_help():
@@ -46,6 +61,5 @@ def get_examples():
                '         Hi-Hat: "1&,2&,3&,4&" \n'
                '         Snare: ",2, ,4" \n'
                '         Kick: "1&, , 3e a," \n\n')
-
 
     print(message)

@@ -27,8 +27,14 @@ command_completer = WordCompleter(['Add Instrument',
 
 def prompt_inst(comp_list=inst_list, no_rhythm=False):
     '''
-    This function prompts the user for an instrument,
+    Prompts the user for an instrument,
     and then prompts for a new rhythm.
+    
+    keyword arguments:
+        comp_list -- 
+        no_rhythm --  
+    
+    returns r 
     '''
     r = RhythmString()
     comp= WordCompleter(inst_list, ignore_case=True)
@@ -55,7 +61,7 @@ def prompt_inst(comp_list=inst_list, no_rhythm=False):
     return r 
     
 def prompt_rhythm():
-    '''Prompts the user for a rhythm, put error handling here maybe'''
+    '''Prompts the user for a rhythm, extendable for future error handling.'''
     return prompt("     Rhythm > ") 
      
 def change_inst(t, delete=False):
@@ -77,7 +83,15 @@ def change_inst(t, delete=False):
     return t
 
 def prompt_command(t, action):
-    '''Interface for user to enter commands in command completer.'''
+    '''
+    Interface for user to enter commands in command completer.
+    
+    Inputs
+    ------
+
+    Return
+    ------
+    '''
     
     command = prompt("> ", completer=command_completer) 
 
