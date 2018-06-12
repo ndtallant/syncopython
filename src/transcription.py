@@ -1,11 +1,13 @@
 '''
-Classes that form the basis for syncopython.
+This file contains classes that form the backend for syncopython.
 
-The rhythm string for each limb will be parsed and joined
-to output to drumseq.py as I develop a backend.
+RhythmString - encloses syncopython notation and MIDI information.
+Transcription - transforms the syncopython notation for the backend.
 '''
+
 import re
 
+# Drum set sounds, feel free to add your own!
 STOCK = {'Kick': '35', 'Snare': '38', 'Hi-Hat': '42'}
 HOUSE = {'Kick': '36', 'Snare': '39', 'Hi-Hat': '70'}
 

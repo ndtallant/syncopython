@@ -23,6 +23,7 @@ from rtmidi.midiconstants import (ALL_SOUND_OFF, BANK_SELECT_LSB,
                                   CONTROL_CHANGE, NOTE_ON, PROGRAM_CHANGE)
 
 
+
 FUNKYDRUMMER = """
     #  1...|...|...|...
     36 x.x.......x..x.. Bassdrum
@@ -38,7 +39,7 @@ class Sequencer(threading.Thread):
       - doesn't call self.start at end of __init__
     """
 
-    def __init__(self, midiout, pattern, bpm, channel=9, volume=127):
+    def __init__(self, midiout, pattern, bpm, channel=9, volume=127, maxbars=4):
         super(Sequencer, self).__init__()
         self.midiout = midiout
         self.bpm = max(20, min(bpm, 400))
@@ -60,6 +61,7 @@ class Sequencer(threading.Thread):
 
         while not self.done:
             self.worker()
+            self.update_bar(self.pattern.current_bar)
             self.callcount += 1
             # Compensate for drift:
             # calculate the time when the worker should be called again.
@@ -77,7 +79,8 @@ class Sequencer(threading.Thread):
         i.e., output notes, emtpy queues, etc.
         """
         self.pattern.playstep(self.midiout, self.channel)
-
+        return self.pattern.current_bar
+    
     def activate_drumkit(self, kit):
         if isinstance(kit, (list, tuple)):
             msb, lsb, pc = kit
@@ -95,6 +98,8 @@ class Sequencer(threading.Thread):
         if kit is not None and pc is not None:
             self.midiout.send_message([PROGRAM_CHANGE | self.channel, pc & 0x7F])
 
+    def update_bar(self, bar):
+        pass
 
 class Drumpattern(object):
     """Container and iterator for a multi-track step sequence."""
@@ -109,6 +114,10 @@ class Drumpattern(object):
     }
 
     def __init__(self, pattern, kit=0, humanize=0):
+        '''
+        Each 'step' is a subdivision (currently 16th notes)
+        '''
+        
         self.instruments = []
         self.kit = kit
         self.humanize = humanize
@@ -127,10 +136,12 @@ class Drumpattern(object):
 
         self.step = 0
         self._notes = {}
+        self.current_bar = 0 # Nick Addition
 
     def reset(self):
         self.step = 0
-
+        self.current_bar = 0 # Nick Addition
+    
     def playstep(self, midiout, channel=9):
         for note, strokes in self.instruments:
             char = strokes[self.step]
@@ -148,10 +159,10 @@ class Drumpattern(object):
                     self._notes[note] = velocity
 
         self.step += 1
-
+        # print('bar # ', self.bars) 
         if self.step >= self.steps:
-            self.step = 0
-
+            self.step = 0 # Nick Addition
+            self.current_bar += 1 # Nick Addition
 
 def main(args=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
