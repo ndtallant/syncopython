@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 
-# stdlib
-import threading
 import time
-
-# 3rd party
 import docopt
 import rtmidi
+import threading
 from rtmidi.midiutil import open_midioutput
 
-# our project
+# syncopython 
 from . import drumseq
 from . import transcription
 

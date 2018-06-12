@@ -13,7 +13,7 @@ from prompt_toolkit.contrib.completers import WordCompleter
 from src.transcription import Transcription 
 from src.transcription import RhythmString 
 from src.user_messages import load_screen, get_help, get_examples
-from src.synco_2 import MidiOut
+from src.synco import MidiOut
 
 inst_list = ['Hi-Hat', 'Snare', 'Kick']
 
@@ -61,7 +61,10 @@ def prompt_inst(comp_list=inst_list, no_rhythm=False):
     return r 
     
 def prompt_rhythm():
-    '''Prompts the user for a rhythm, extendable for future error handling.'''
+    '''
+    Prompts the user for a rhythm, 
+    extendable for future error handling.
+    '''
     return prompt("     Rhythm > ") 
      
 def change_inst(t, delete=False):
