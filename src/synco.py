@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 import time
 import docopt
 import rtmidi
@@ -33,12 +33,25 @@ class SyncoSequencer(drumseq.Sequencer):
     
     def update_bar(self, current_bar):
         print('current bar from DreamSequencer.update_bar:', current_bar)
+        if current_bar >= 1:
+            self.stop()
 
     def stop(self):
         '''Join closes the loop so user can input again''' 
+        print('about to set done') 
         self.done = True
-        self.join()
-
+        print('Done set to true') 
+        #del self.midiout 
+        ''' 
+        # can't join thread - there's only one. done is an event that stops the sequencer
+        # but we need to get back to the ux
+        try:
+            self.join()
+        
+        except RuntimeError:
+            sys.exit() 
+            #pass #lol
+        '''
 class MidiOut(): 
     '''
     Will instatiate the drumseq.Sequencer with the
@@ -78,6 +91,12 @@ class MidiOut():
         you can re raise the exception here to see what happened
         '''
         self.stop()
+        # sys.exit(0) left the prompt lol 
+        # had to ctr C here.....
+        # pass did not work
+        # del midiout did not work 
+        print('I stopped') 
+        return
 
     def stop(self):
         self.sequencer.stop()

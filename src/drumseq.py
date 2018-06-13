@@ -197,7 +197,8 @@ def main(args=None):
     try:
         midiout, port_name = open_midioutput(
             args.port,
-            api=rtmidi.API_UNIX_JACK,
+            api=rtmidi.API_RTMIDI_DUMMY, 
+            #api=rtmidi.API_UNIX_JACK,
             client_name="drumseq",
             port_name="MIDI Out")
     except (EOFError, KeyboardInterrupt):
@@ -214,7 +215,6 @@ def main(args=None):
         print('')
     finally:
         seq.done = True  # And kill it.
-        seq.join()
         del midiout
         print("Done")
 
