@@ -10,7 +10,7 @@ from rtmidi.midiutil import open_midioutput
 from . import drumseq
 from . import transcription
 
-class DreamSequencer(drumseq.Sequencer):
+class SyncoSequencer(drumseq.Sequencer):
     ''' 
     Wrapper around drumseq's Sequencer object which has an API
     closer to what we want to use 
@@ -66,7 +66,7 @@ class MidiOut():
         except (EOFError, KeyboardInterrupt):   
             pass
         
-        self.sequencer = DreamSequencer(midiout, self.drumseq_pattern)
+        self.sequencer = SyncoSequencer(midiout, self.drumseq_pattern)
 
     def __enter__(self): 
         return self

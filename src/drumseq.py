@@ -134,17 +134,17 @@ class Drumpattern(object):
                 self.instruments.append((patch, strokes))
                 self.steps = len(strokes)
 
-        self.step = 0
+        self.subdivision = 0
         self._notes = {}
         self.current_bar = 0 # Nick Addition
 
     def reset(self):
-        self.step = 0
+        self.subdivision = 0
         self.current_bar = 0 # Nick Addition
     
     def playstep(self, midiout, channel=9):
         for note, strokes in self.instruments:
-            char = strokes[self.step]
+            char = strokes[self.subdivision]
             velocity = self.velocities.get(char)
 
             if velocity is not None:
@@ -158,10 +158,10 @@ class Drumpattern(object):
                     midiout.send_message([NOTE_ON | channel, note, max(1, velocity)])
                     self._notes[note] = velocity
 
-        self.step += 1
+        self.subdivision += 1
         # print('bar # ', self.bars) 
-        if self.step >= self.steps:
-            self.step = 0 # Nick Addition
+        if self.subdivision >= self.steps:
+            self.subdivision = 0 # Nick Addition
             self.current_bar += 1 # Nick Addition
 
 def main(args=None):
