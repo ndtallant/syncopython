@@ -88,35 +88,14 @@ check back later lol
 Reading for [sound fonts](https://en.wikipedia.org/wiki/SoundFont) and [General MIDI](https://en.wikipedia.org/wiki/General_MIDI) --->
 
 # Getting Python Dependencies
-Many things aren't installed with a fresh install of Ubuntu!
+Many things aren't installed with a fresh install of Ubuntu.
 
-`$ sudo apt-get upgrade python3`
-
-`$ sudo apt install python3-pip`
-
-`$ pip3 install --upgrade pip`
-
-`$ sudo pip3 install mido`
-
-`$ sudo pip3 install Cython`
-
-`$ sudo pip3 install rtmidi`
-
-`$ sudo pip3 install python-rtmidi`
-
-## Playing a MIDI file through mido
-
-I only got this to work in a very specfic way - need to figure out why it works this way.
-
-* open interpreter
-* import mido
-* cd /mido/examples/midifiles (git repo)
-* run play_midi_file.py <file> 'tiMiditiy port 0'
-
-The port name was found using list_ports.py. Other tiMidity ports worked.
-
-### Sound test checklist
-
-1. Check midi file plays natively with pmidi (above)
-2. drumseq sequencer plays natively
-  * run server?
+```
+apt-get upgrade python3
+apt install python3-pip
+pip3 install --upgrade pip
+pip3 install mido
+pip3 install Cython
+pip3 install rtmidi
+pip3 install python-rtmidi
+```
