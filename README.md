@@ -48,9 +48,6 @@ Kick:   1   ,    ,3   ,
 ```
 Note syncopython ignores white space!
 
-### Other To-Do
-Make soft synth level configurable in VM - or see what the default setting is
-
 Contribute
 ----------
 - [Submit an Issue](https://github.com/ndtallant/syncopython/issues)
