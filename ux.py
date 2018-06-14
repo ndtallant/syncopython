@@ -29,19 +29,13 @@ def prompt_inst(comp_list=inst_list, no_rhythm=False):
     '''
     Prompts the user for an instrument,
     and then prompts for a new rhythm.
-    
-    keyword arguments:
-        comp_list -- 
-        no_rhythm --  
-    
-    returns r 
     '''
     r = RhythmString()
     comp= WordCompleter(inst_list, ignore_case=True)
     
     while True:    
         
-        inst_entry = prompt("   Instrument > ", completer=comp) #pass history in here or nah?
+        inst_entry = prompt("   Instrument > ", completer=comp)
 
         if inst_entry in comp_list:
             if no_rhythm:
@@ -86,15 +80,7 @@ def change_inst(t, delete=False):
     return t
 
 def prompt_command(t, action):
-    '''
-    Interface for user to enter commands in command completer.
-    
-    Inputs
-    ------
-
-    Return
-    ------
-    '''
+    '''Interface for user to enter commands in command completer'''
     
     command = prompt("> ", completer=command_completer) 
 
@@ -120,7 +106,7 @@ def prompt_command(t, action):
         
         except: # I know...
             print('I can\'t see a drumset right now')
-            print('Dev-note: no Transcription stack')
+            # print('Dev-note: no Transcription stack')
         print()
     return t, action
 
